@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GERENCIADOR TAREFAS</title>
+</head>
+<body>
+    <h2>Minhas Tarefas</h2>
+
+    <form id="formTarefa">
+        <label>Tarefa: </label>
+        <input id="inputTarefa" type="text" placeholder="Digite uma tarefa: ">
+        <button type="submit">Adicionar</button>
+    </form>
+
+    <h3>Lista de Tarefas:</h3>
+    <ul id="listaTarefa"></ul>
+
+    <script>
+
+        //CRIANDO O ARRAY DE TAREFAS
+        let lista = ['Estudar JS', 'Estudar SQL', 'Estudar FrontEnd']
+
+        const form = document.getElementById('formTarefa')
+        const input = document.getElementById('inputTarefa')
+        const ul = document.getElementById('listaTarefa')
+
+        //Funcao para renderizar a lista na tela
+        function atualizarLista(){
+            ul.innerHTML = ''
+
+            lista.forEach((tarefa, index) => {
+                let li = document.createElement('li')
+                li.textContent = tarefa
+
+                //Botao editar
+                let btnEditar = document.createElement('button')
+                btnEditar.textContent = 'Editar'
+
+                btnEditar.onclick = () => {
+                    let nomeTarefa = prompt('Digite o novo nome da tarefa')
+
+                    if(nomeTarefa){
+                        lista[index] = nomeTarefa
+                        atualizarLista()
+                    }
+                }
+
+                //Botao excluir
+                let btnExcluir = document.createElement('button')
+                btnExcluir.textContent = 'Excluir'
+
+                btnExcluir.onclick = () => {
+                    if(confirm('EXCLUIR?')){
+                        lista.splice(index, 1)
+                        atualizarLista()
+                    }
+                }
+
+                //Adicionar o botao editar no li
+                li.appendChild(btnEditar)
+                li.appendChild(btnExcluir)
+
+                //Adicionar o li no ul(listaTarefas)
+                ul.appendChild(li)
+
+            })// O for each acaba aqui
+        }
+
+                    //Ação de adicinar uma tarefa
+                    form.addEventListener('submit', function(event){
+                    event.preventDefault()
+                    lista.push(input.value)
+                    input.value =''
+                    atualizarLista()
+                })
+
+        atualizarLista()
+    </script>
+</body>
+</html>
